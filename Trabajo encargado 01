@@ -1,0 +1,21 @@
+Trabajo Encargado - N° 01
+import itertools
+def generar_lenguaje(alfabeto, longitud_maxima):
+ lenguaje = []
+ for i in range(1, longitud_maxima + 1):
+ combinaciones = itertools.product(alfabeto, repeat=i)
+ lenguaje.extend([''.join(combinacion) for combinacion in combinaciones])
+ return lenguaje
+def main():
+ n = int(input("Ingrese la cantidad de elementos del alfabeto: "))
+ x = int(input("Ingrese la longitud máxima del lenguaje: "))
+ alfabeto = []
+ for i in range(n):
+ elemento = input(f"Ingrese el elemento {i+1} del alfabeto: ")
+ alfabeto.append(elemento)
+ lenguaje = generar_lenguaje(alfabeto, x)
+ print("El lenguaje generado es:")
+ for palabra in lenguaje:
+ print(palabra)
+if __name__ == "__main__":
+ main()
