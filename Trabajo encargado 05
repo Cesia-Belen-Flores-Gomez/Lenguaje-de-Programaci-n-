@@ -1,0 +1,179 @@
+Ejercicio 01
+import streamlit as st
+
+def filtrar_emails(input_file_path, output_file_path):
+    with open(input_file_path, 'r') as inputFile, open(output_file_path, 'w') as outputFile:
+        for line in inputFile:
+            nombre, edad_str, email = line.strip().split(',')
+            edad = int(edad_str)
+            if edad > 18:
+                outputFile.write(email + '\n')
+
+    st.success("Se han filtrado los emails correctamente. Revisa 'emails_filtrados.txt'.")
+
+def main():
+    st.title("Filtrado de Correos Electrónicos")
+
+    input_file_path = st.file_uploader("Selecciona el archivo de datos personales", type=['txt'])
+
+    if input_file_path is not None:
+        output_file_path = "emails_filtrados.txt"
+        filtrar_emails(input_file_path, output_file_path)
+
+if __name__ == "__main__":
+    main()
+Ejercicio 02
+import streamlit as st
+
+def generar_informe(registro_horas_path, informe_horas_path):
+    horas_por_empleado = {}
+
+    with open(registro_horas_path, 'r') as archivo_entrada:
+        for linea in archivo_entrada:
+            nombre_empleado, horas_trabajadas, *_ = linea.strip().split()
+            horas_trabajadas = int(horas_trabajadas)
+            if nombre_empleado in horas_por_empleado:
+                horas_por_empleado[nombre_empleado] += horas_trabajadas
+            else:
+                horas_por_empleado[nombre_empleado] = horas_trabajadas
+    
+    with open(informe_horas_path, 'w') as archivo_salida:
+        for nombre_empleado, horas_totales in horas_por_empleado.items():
+            archivo_salida.write(f"{nombre_empleado}, Horas Totales: {horas_totales}\n")
+
+    st.success("Se ha generado el informe de horas totales trabajadas por empleado y se ha guardado en el archivo 'informe_horas.txt'.")
+
+def main():
+    st.title("Generador de Informe de Horas Trabajadas")
+
+    registro_horas_path = st.file_uploader("Seleccione el archivo de registro de horas", type=['txt'])
+
+    if registro_horas_path is not None:
+        informe_horas_path = "informe_horas.txt"
+        generar_informe(registro_horas_path, informe_horas_path)
+
+if __name__ == "__main__":
+    main()
+Ejercicio 04
+import streamlit as st
+
+def generar_informe(registro_temperaturas_path, temperaturas_extremas_path):
+    temperatura_maxima = float('-inf')
+    temperatura_minima = float('inf')
+    dia_maxima = ""
+    dia_minima = ""
+
+    with open(registro_temperaturas_path, 'r') as archivo_entrada:
+        lineas = archivo_entrada.readlines()
+
+        for linea in lineas:
+            fecha, temperatura, *_ = linea.strip().split()
+            temperatura = float(temperatura)
+
+            if temperatura > temperatura_maxima:
+                temperatura_maxima = temperatura
+                dia_maxima = fecha
+            if temperatura < temperatura_minima:
+                temperatura_minima = temperatura
+                dia_minima = fecha
+
+    with open(temperaturas_extremas_path, 'w') as archivo_salida:
+        archivo_salida.write(f"Día de temperatura máxima: {dia_maxima}, {temperatura_maxima}\n")
+        archivo_salida.write(f"Día de temperatura mínima: {dia_minima}, {temperatura_minima}\n")
+
+    st.success("Se han identificado los días con temperaturas extremas y se han guardado en el archivo 'temperaturas_extremas.txt'.")
+
+def main():
+    st.title("Generador de Informe de Temperaturas Extremas")
+
+    registro_temperaturas_path = st.file_uploader("Seleccione el archivo de registro de temperaturas", type=['txt'])
+
+    if registro_temperaturas_path is not None:
+        temperaturas_extremas_path = "temperaturas_extremas.txt"
+        generar_informe(registro_temperaturas_path, temperaturas_extremas_path)
+
+if __name__ == "__main__":
+    main()
+Ejercicio 05
+import streamlit as st
+
+def generar_informe(ventas_diarias_path, informe_ventas_path):
+    venta_total = 0
+    ventas_diarias = 0
+    mayor_venta = float('-inf')
+    menor_venta = float('inf')
+    dia_mayor_venta = ""
+    dia_menor_venta = ""
+
+    with open(ventas_diarias_path, 'r') as archivo_entrada:
+        lineas = archivo_entrada.readlines()
+
+        for linea in lineas:
+            fecha, venta_diaria, *_ = linea.strip().split()
+            venta_diaria = int(venta_diaria)
+            
+            venta_total += venta_diaria
+            ventas_diarias += 1
+
+            if venta_diaria > mayor_venta:
+                mayor_venta = venta_diaria
+                dia_mayor_venta = fecha
+
+            if venta_diaria < menor_venta:
+                menor_venta = venta_diaria
+                dia_menor_venta = fecha
+        
+        promedio_ventas = venta_total / ventas_diarias
+
+        with open(informe_ventas_path, 'w') as archivo_salida:
+            archivo_salida.write(f"Venta total: {venta_total}\n")
+            archivo_salida.write(f"Promedio de ventas: {promedio_ventas:.2f}\n")
+            archivo_salida.write(f"Día de mayor venta: {dia_mayor_venta}, {mayor_venta}\n")
+            archivo_salida.write(f"Día de menor venta: {dia_menor_venta}, {menor_venta}\n")
+
+    st.success("Se ha generado el informe de ventas y se ha guardado en el archivo 'informe_ventas.txt'.")
+
+def main():
+    st.title("Generador de Informe de Ventas")
+
+    ventas_diarias_path = st.file_uploader("Seleccione el archivo de ventas diarias", type=['txt'])
+
+    if ventas_diarias_path is not None:
+        informe_ventas_path = "informe_ventas.txt"
+        generar_informe(ventas_diarias_path, informe_ventas_path)
+
+if __name__ == "__main__":
+    main()
+Ejercicio 06
+import streamlit as st
+
+def generar_informe(registro_horas_path, informe_horas_path):
+    horas_por_empleado = {}
+
+    with open(registro_horas_path, 'r') as archivo_entrada:
+        for linea in archivo_entrada:
+            nombre_empleado, horas_trabajadas, *_ = linea.strip().split()
+            horas_trabajadas = int(horas_trabajadas)
+            if nombre_empleado in horas_por_empleado:
+                horas_por_empleado[nombre_empleado] += horas_trabajadas
+            else:
+                horas_por_empleado[nombre_empleado] = horas_trabajadas
+    
+    with open(informe_horas_path, 'w') as archivo_salida:
+        for nombre_empleado, horas_totales in horas_por_empleado.items():
+            archivo_salida.write(f"{nombre_empleado}, Horas Totales: {horas_totales}\n")
+
+    st.success("Se ha generado el informe de horas totales trabajadas por empleado y se ha guardado en el archivo 'informe_horas.txt'.")
+
+def main():
+    st.title("Generador de Informe de Horas Trabajadas")
+
+    registro_horas_path = st.file_uploader("Seleccione el archivo de registro de horas", type=['txt'])
+
+    if registro_horas_path is not None:
+        informe_horas_path = "informe_horas.txt"
+        generar_informe(registro_horas_path, informe_horas_path)
+
+if __name__ == "__main__":
+    main()
+
