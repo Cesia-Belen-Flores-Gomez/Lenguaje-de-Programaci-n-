@@ -1,0 +1,172 @@
+Trabajo Encargado - N° 04
+
+Ejercicio 04
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <limits>
+
+int main() {
+    std::ifstream archivo_entrada("registro_temperaturas.txt");    
+    std::ofstream archivo_salida("temperaturas_extremas.txt");     
+
+    if (!archivo_entrada.is_open()) {
+        std::cerr << "No se pudo abrir el archivo 'registro_temperaturas.txt'." << std::endl;
+        return 1;
+    }
+
+    if (!archivo_salida.is_open()) {
+        std::cerr << "No se pudo crear el archivo 'temperaturas_extremas.txt'." << std::endl;
+        return 1;
+    }
+
+    std::string linea;
+    double temperatura_maxima = std::numeric_limits<double>::lowest();
+    double temperatura_minima = std::numeric_limits<double>::max();
+    std::string dia_maxima, dia_minima;
+
+    while (std::getline(archivo_entrada, linea)) {
+        std::istringstream iss(linea);
+        std::string fecha;
+        double temperatura;
+        char delim;
+        iss >> fecha >> temperatura >> delim;
+        
+        if (temperatura > temperatura_maxima) {
+            temperatura_maxima = temperatura;
+            dia_maxima = fecha;
+        }
+
+        if (temperatura < temperatura_minima) {
+            temperatura_minima = temperatura;
+            dia_minima = fecha;
+        }
+    }
+    archivo_entrada.close();
+
+    archivo_salida << "Día de temperatura máxima: " << dia_maxima << ", " << temperatura_maxima << std::endl;
+    archivo_salida << "Día de temperatura mínima: " << dia_minima << ", " << temperatura_minima << std::endl;
+    archivo_salida.close();
+
+    std::cout << "Se han identificado los días con temperaturas extremas y se han guardado en el archivo 'temperaturas_extremas.txt'." << std::endl;
+
+    return 0;
+} 
+
+
+Ejercicio 05
+
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <iomanip>  
+#include <limits>
+
+int main() {
+    std::ifstream archivo_entrada("ventas_diarias.txt");    
+    std::ofstream archivo_salida("informe_ventas.txt");     
+
+    if (!archivo_entrada.is_open()) {
+        std::cerr << "No se pudo abrir el archivo 'ventas_diarias.txt'." << std::endl;
+        return 1;
+    }
+
+    if (!archivo_salida.is_open()) {
+        std::cerr << "No se pudo crear el archivo 'informe_ventas.txt'." << std::endl;
+        return 1;
+    }
+
+    int venta_total = 0;
+    int ventas_diarias = 0;
+    int mayor_venta = std::numeric_limits<int>::min();  
+    int menor_venta = std::numeric_limits<int>::max();  
+    std::string dia_mayor_venta, dia_menor_venta;
+    std::string linea;
+
+    
+   while (std::getline(archivo_entrada, linea)) {
+        std::istringstream iss(linea);
+        std::string fecha;
+        int venta_diaria;
+        char delim;
+        iss >> fecha >> venta_diaria >> delim;
+
+        venta_total += venta_diaria;
+        ventas_diarias++;
+
+        if (venta_diaria > mayor_venta) {
+            mayor_venta = venta_diaria;
+            dia_mayor_venta = fecha;
+        }
+
+        if (venta_diaria < menor_venta) {
+            menor_venta = venta_diaria;
+            dia_menor_venta = fecha;
+        }
+    }
+    archivo_entrada.close();
+
+    double promedio_ventas = static_cast<double>(venta_total) / ventas_diarias;
+
+    archivo_salida << "Venta total: " << venta_total << std::endl;
+    archivo_salida << "Promedio de ventas: " << std::fixed << std::setprecision(2) << promedio_ventas << std::endl;
+    archivo_salida << "Día de mayor venta: " << dia_mayor_venta << ", " << mayor_venta << std::endl;
+    archivo_salida << "Día de menor venta: " << dia_menor_venta << ", " << menor_venta << std::endl;
+    archivo_salida.close();
+
+    std::cout << "Se ha generado el informe de ventas y se ha guardado en el archivo 'informe_ventas.txt'." << std::endl;
+
+    return 0;
+}
+
+
+Ejercicio 06
+
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+
+
+int main() {
+    std::ifstream archivo_entrada("registro_horas.txt");    
+    std::ofstream archivo_salida("informe_horas.txt");       
+
+    if (!archivo_entrada.is_open()) {
+        std::cerr << "No se pudo abrir el archivo 'registro_horas.txt'." << std::endl;
+        return 1;
+    }
+
+    if (!archivo_salida.is_open()) {
+        std::cerr << "No se pudo crear el archivo 'informe_horas.txt'." << std::endl;
+        return 1;
+    }
+
+    std::unordered_map<std::string, int> horas_por_empleado;
+
+    std::string linea;
+    while (std::getline(archivo_entrada, linea)) {
+        std::istringstream iss(linea);
+        std::string nombre_empleado;
+        int horas_trabajadas;
+        char delim;
+        iss >> nombre_empleado >> horas_trabajadas >> delim;
+        horas_por_empleado[nombre_empleado] += horas_trabajadas;
+    }
+    archivo_entrada.close();
+
+    for (const auto& par : horas_por_empleado) {
+        archivo_salida << par.first << ", Horas Totales: " << par.second << std::endl;
+    }
+    archivo_salida.close();
+
+    std::cout << "Se ha generado el informe de horas totales trabajadas por empleado y se ha guardado en el archivo 'informe_horas.txt'." << std::endl;
+
+    return 0;
+}
