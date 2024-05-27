@@ -1,0 +1,27 @@
+Traba jo Encargado - N° 02
+ 
+#include <iostream>
+#include <random>
+
+int main() {
+    // Configurar un generador de números aleatorios con una distribución uniforme
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> dis(0.0, 1.0); // Números aleatorios entre 0 y 1
+
+    const int cantidadNumeros = 10000;
+    double suma = 0.0;
+
+    // Generar y sumar los números aleatorios
+    for (int i = 0; i < cantidadNumeros; ++i) {
+        double numeroAleatorio = dis(gen);
+        suma += numeroAleatorio;
+    }
+
+    // Calcular el promedio
+    double promedio = suma / cantidadNumeros;
+
+    std::cout << "El promedio de " << cantidadNumeros << " numeros aleatorios es: " << promedio << std::endl;
+
+    return 0;
+}
