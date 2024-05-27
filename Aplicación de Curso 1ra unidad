@@ -1,0 +1,26 @@
+import streamlit as st
+from pydub import AudioSegment
+import os
+
+def convert_audio(input_file, output_format):
+    try:
+        audio = AudioSegment.from_mp3(input_file)
+        output_file = os.path.splitext(input_file)[0] + '.' + output_format
+        audio.export(output_file, format=output_format)
+        return output_file
+    except Exception as e:
+        return str(e)
+ 
+st.title('Conversor de MP3 a Otros Formatos de Audio')
+
+uploaded_file = st.file_uploader("Selecciona un archivo MP3", type=["mp3"])
+
+if uploaded_file is not None:
+    st.write('Archivo cargado exitosamente!')
+
+    output_format = st.selectbox('Selecciona el formato de salida', ['WAV', 'FLAC', 'OGG'])
+ 
+    if st.button('Convertir'):
+        output_file = convert_audio(uploaded_file, output_format.lower())
+        st.success(f'¡Archivo convertido con éxito! Puedes descargarlo [aquí]({output_file}).')
+ 
