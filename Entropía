@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <unordered_map>
+
+using namespace std;
+
+// Función para calcular la entropía de un texto dado
+double calcular_entropia(const string& texto) {
+    unordered_map<char, int> frecuencia;
+    int longitud = texto.size();
+    
+    // Contar la frecuencia de cada letra
+    for (char c : texto) {
+        if (isalpha(c)) { // Solo contar letras del alfabeto
+            frecuencia[c]++;
+        }
+    }
+    
+    // Calcular la entropía
+    double entropia = 0.0;
+    for (const auto& par : frecuencia) {
+        double probabilidad = static_cast<double>(par.second) / longitud;
+        entropia -= probabilidad * log2(probabilidad);
+    }
+    
+    return entropia;
+}
+
+int main() {
+    string nombre_archivo;
+    cout << "F:\Entropia ";
+    cin >> nombre_archivo;
+    
+    ifstream archivo(nombre_archivo);
+    
+    if (!archivo.is_open()) {
+        cerr << "Error al abrir el archivo " << nombre_archivo << endl;
+        return 1;
+    }
+    
+    string texto((istreambuf_iterator<char>(archivo)), istreambuf_iterator<char>());
+    
+    double entropia = calcular_entropia(texto);
+    
+    cout << "Entropía de las letras en el archivo: " << entropia << endl;
+    
+    archivo.close();
+    
+    return 0;
+}
