@@ -1,0 +1,37 @@
+import random
+import time
+
+def busqueda_lineal(array, numero):
+    inicio = time.time()
+    iteraciones = 0
+    for i in range(len(array)):
+        iteraciones += 1
+        if array[i] == numero:
+            fin = time.time()
+            return i, inicio, fin, iteraciones
+    fin = time.time()
+    return -1, inicio, fin, iteraciones
+
+n = int(input("Ingrese la cantidad de Busqueda: "))
+
+variable = 0
+while variable <= n:
+    array = [random.randint(0, variable) for _ in range(variable)]  
+    numero_a_buscar = random.randint(0, variable) 
+    print("\n\n----------------------")
+    print(f"Array:", array)
+    print(f"Número a buscar:", numero_a_buscar)
+
+    resultado, inicio, fin, iteraciones = busqueda_lineal(array, numero_a_buscar)
+    if resultado != -1:
+        print(f"El número {numero_a_buscar} se encuentra en la posición {resultado}.")
+    else:
+        print(f"El número {numero_a_buscar} no se encuentra en el array.")
+    print(f"Tiempo de inicio: {inicio}")
+    print(f"Tiempo de fin: {fin}")
+    print(f"Tiempo total: {fin - inicio} segundos")
+    print(f"Número de iteraciones: {iteraciones}")
+    
+    variable += 50
+    print("---------------------")
+   
