@@ -1,0 +1,24 @@
+import streamlit as st
+
+def knapsack(W, weights, values):
+    n = len(weights)
+    dp = [0] * (W + 1)
+    for i in range(n):
+        for w in range(W, weights[i] - 1, -1):
+            dp[w] = max(dp[w], values[i] + dp[w - weights[i]])
+    return dp[W]
+
+st.title("Problema de la Mochila")
+
+W = st.number_input("Capacidad de la Mochila", min_value=1)
+weights_input = st.text_input("Pesos de los Objetos (separados por comas)")
+values_input = st.text_input("Valores de los Objetos (separados por comas)")
+
+if st.button("Calcular Valor Máximo"):
+    try:
+        weights = list(map(int, weights_input.split(',')))
+        values = list(map(int, values_input.split(',')))
+        max_value = knapsack(W, weights, values)
+        st.success(f"El valor máximo que se puede obtener es: {max_value}")
+    except ValueError:
+        st.error("Por favor, ingresa números válidos para pesos y valores.")
