@@ -1,0 +1,54 @@
+Ejercicio 7------ 
+ 
+numero = int(input("Introduce un número entero positivo: "))
+ 
+cuenta_atras = ", ".join(str(i) for i in range(numero, -1, -1))
+ 
+print(f"Cuenta atrás: {cuenta_atras}")
+
+Ejercicio 10----
+
+palabra = input("Introduce una palabra: ")
+
+for letra in reversed(palabra):
+    print(letra)
+
+Ejercicio 11-----
+ 
+frase = input("Introduce una frase: ")
+letra = input("Introduce una letra: ")
+ 
+conteo = frase.count(letra)
+ 
+print(f"La letra '{letra}' aparece {conteo} veces en la frase.")
+
+Ejercicio 12-----
+ 
+frase = input("Introduce una frase: ")
+ 
+vocal = input("Introduce una vocal: ")
+ 
+contador = frase.lower().count(vocal.lower())
+ 
+print(f"La vocal '{vocal}' aparece {contador} veces en la frase.")
+
+Ejercicio 13
+ 
+frase = input("Introduce una frase: ")
+ 
+vocal = input("Introduce una vocal: ")
+ 
+contador = frase.lower().count(vocal.lower())
+ 
+print(f"La vocal '{vocal}' aparece {contador} veces en la frase.")
+
+Ejercicio 15
+ 
+fecha_nacimiento = input("Introduce tu fecha de nacimiento (dd/mm/aaaa): ")
+ 
+dia, mes, año = fecha_nacimiento.split('/')
+ 
+print(f"Día: {dia}")
+print(f"Mes: {mes}")
+print(f"Año: {año}")
+
